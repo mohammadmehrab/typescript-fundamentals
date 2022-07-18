@@ -184,4 +184,27 @@ async function runTheLearningSamples() {
   const pear = { name: 'pear' };
   // const pearFood: FoodProduct = pear;
   const pearFood: Partial<FoodProduct> = pear;
+
+  interface Model<T> {
+    items: T[] | undefined;
+    getItems: () => Promise<T[]>;
+    getItemById: (id: number) => T | undefined;
+  }
+
+  class FoodModel2 implements Model<FoodProduct> {
+    public items: FoodProduct[] | undefined;
+    async getItems() : Promise<FoodProduct[]>{
+      this.items = await getList<FoodProduct>(productsURL);
+      return this.items;
+    };
+    getItemById(id: number) : FoodProduct | undefined {
+      return this.items ? this.items.find((item) => (id = item.id)) : undefined;
+    }
+    
+  }
+
+
+
+
+
 }
